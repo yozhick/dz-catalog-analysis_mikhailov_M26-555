@@ -83,15 +83,39 @@ def count_long_movies(movies, threshold=120):
     return count
 
 
+def normalize_title(title):
+    words = title.split()
+    return " ".join(word[0].upper() + word[1:] for word in words)
+
+
+def make_slug(title):
+    return normalize_title(title).lower().replace(" ", "-")
+
+
+def format_report_line(movie):
+    title = normalize_title(movie["title"])
+    duration = duration_in_hours(movie["duration_min"])
+    genres = ", ".join(sorted(movie["genres"]))
+    return (
+        f'"{title}" ({movie["year"]}) — {movie["rating"]}/10, '
+        f"{duration}, жанры: {genres}"
+    )
+
+
+movie = movies[0]
+
 print("average_rating:", average_rating(movies))
 print("----------")
 print("catalog_age_stats:", catalog_age_stats(movies))
 print("----------")
-print("duration_in_hours:", duration_in_hours(movies[0]["duration_min"]))
+print(
+    f"duration_in_hours({movie['duration_min']}):",
+    duration_in_hours(movie["duration_min"]),
+)
 print("----------")
-print("rating_tier:", rating_tier(movies[0]["rating"]))
+print(f"rating_tier({movie['rating']}):", rating_tier(movie["rating"]))
 print("----------")
-print("decade_label:", decade_label(movies[0]["year"]))
+print(f"decade_label({movie['year']}):", decade_label(movie["year"]))
 print("----------")
 print("print_non_comedy_movies:")
 print_non_comedy_movies(movies)
@@ -104,3 +128,12 @@ print(
 )
 print("----------")
 print("count_long_movies:", count_long_movies(movies))
+print("----------")
+print(f"normalize_title({movie['title']!r}):", normalize_title(movie["title"]))
+print("----------")
+print(f"make_slug({movie['title']!r}):", make_slug(movie["title"]))
+print("----------")
+print(
+    f"format_report_line (фильм {movie['title']!r}):",
+    format_report_line(movie),
+)
