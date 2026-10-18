@@ -140,7 +140,23 @@ def ratings_above_average(movies):
     }
 
 
+def all_genres(movies):
+    genres = set()
+    for movie in movies:
+        genres.update(movie["genres"])
+    return genres
+
+
+def common_actors(movie1, movie2):
+    return set(movie1["actors"]) & set(movie2["actors"])
+
+
+def genres_only_in_one(movies_a, movies_b):
+    return all_genres(movies_a) - all_genres(movies_b)
+
+
 movie = movies[0]
+other_movie = movies[3]
 
 print("average_rating:", average_rating(movies))
 print("----------")
@@ -185,3 +201,15 @@ print("----------")
 print("actor_filmography:", actor_filmography(movies))
 print("----------")
 print("ratings_above_average:", ratings_above_average(movies))
+print("----------")
+print("all_genres:", all_genres(movies))
+print("----------")
+print(
+    f"common_actors({movie['title']!r}, {other_movie['title']!r}):",
+    common_actors(movie, other_movie),
+)
+print("----------")
+print(
+    "genres_only_in_one(movies[5:6], movies[:5]):",
+    genres_only_in_one(movies[5:6], movies[:5]),
+)
