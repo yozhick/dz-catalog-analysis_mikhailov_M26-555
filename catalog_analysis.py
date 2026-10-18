@@ -57,6 +57,50 @@ def decade_label(year):
             return "старые"
 
 
-print(average_rating(movies))
-print(catalog_age_stats(movies))
-print(duration_in_hours(153))
+def print_non_comedy_movies(movies):
+    for movie in movies:
+        if "comedy" in movie["genres"]:
+            continue
+        print(movie["title"])
+
+
+def find_masterpiece(movies):
+    index = 0
+    while index < len(movies):
+        if movies[index]["rating"] > 9.0:
+            break
+        index += 1
+    else:
+        return "Шедевров не найдено"
+    return movies[index]["title"]
+
+
+def count_long_movies(movies, threshold=120):
+    count = 0
+    for movie in movies:
+        if movie["duration_min"] > threshold:
+            count += 1
+    return count
+
+
+print("average_rating:", average_rating(movies))
+print("----------")
+print("catalog_age_stats:", catalog_age_stats(movies))
+print("----------")
+print("duration_in_hours:", duration_in_hours(movies[0]["duration_min"]))
+print("----------")
+print("rating_tier:", rating_tier(movies[0]["rating"]))
+print("----------")
+print("decade_label:", decade_label(movies[0]["year"]))
+print("----------")
+print("print_non_comedy_movies:")
+print_non_comedy_movies(movies)
+print("----------")
+print("find_masterpiece:", find_masterpiece(movies))
+print("----------")
+print(
+    "find_masterpiece (без шедевров):",
+    find_masterpiece([movie for movie in movies if movie["rating"] <= 9.0]),
+)
+print("----------")
+print("count_long_movies:", count_long_movies(movies))
