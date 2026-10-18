@@ -102,6 +102,16 @@ def format_report_line(movie):
     )
 
 
+def titles_sorted_by_rating(movies):
+    sorted_movies = sorted(movies, key=lambda movie: movie["rating"], reverse=True)
+    return [movie["title"] for movie in sorted_movies]
+
+
+def top_n_by_rating(movies, n=3):
+    sorted_movies = sorted(movies, key=lambda movie: movie["rating"], reverse=True)
+    return [(movie["title"], movie["rating"]) for movie in sorted_movies[:n]]
+
+
 movie = movies[0]
 
 print("average_rating:", average_rating(movies))
@@ -137,3 +147,7 @@ print(
     f"format_report_line (фильм {movie['title']!r}):",
     format_report_line(movie),
 )
+print("----------")
+print("titles_sorted_by_rating:", titles_sorted_by_rating(movies))
+print("----------")
+print("top_n_by_rating(n=3):", top_n_by_rating(movies))
